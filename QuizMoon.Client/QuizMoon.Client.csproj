@@ -9,7 +9,7 @@
     <SpaRoot>ClientApp\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <SpaProxyServerUrl>https://localhost:44419</SpaProxyServerUrl>
-    <!--<SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>-->
+    <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
     <ImplicitUsings>false</ImplicitUsings>
   </PropertyGroup>
 
@@ -34,8 +34,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\QuizMoon.BL\QuizMoon.BL.csproj" />
-    <ProjectReference Include="..\..\QuizMoon.DA\QuizMoon.DA.csproj" />
+    <ProjectReference Include="..\QuizMoon.BL\QuizMoon.BL.csproj" />
+    <ProjectReference Include="..\QuizMoon.DA\QuizMoon.DA.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
