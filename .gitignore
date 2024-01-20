@@ -1,1 +1,24 @@
+# Visual Studio settings
+*/.vs/*
 .vs/
+*.nupkg
+*.nuspec
+*.js.map
+
+# .NET
+bin/
+obj/
+*.suo
+*.user
+*.log
+*.vscode/
+*.pidb
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# React
+/dist/
+/build/
