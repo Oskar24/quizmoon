@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using QuizMoon.BL.Services;
+using QuizMoon.Client.Api;
+using QuizMoon.Client.Data;
 using QuizMoon.DA;
 using QuizMoon.DA.Repositories;
 using QuizMoon.Models.Mappings;
@@ -15,5 +17,8 @@ public static class Startup
      
         services.AddScoped<IFlashcardRepository, FlashcardRepository>();
         services.AddScoped<IFlashcardService, FlashcardService>();
+
+        services.AddScoped<IUserRepository, UserRepository>();
+
     }
 }

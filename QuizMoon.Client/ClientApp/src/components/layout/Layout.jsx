@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from './Header';
 import styled from 'styled-components';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
@@ -15,7 +14,6 @@ const FullScreen = styled.div`
 
 const LeftPanelContainer = styled.div`
   width: 250px;
-  background-color: red;
 `;
 
 const RightPanelContainer = styled.div`
@@ -23,7 +21,6 @@ const RightPanelContainer = styled.div`
 `;
 
 const Layout = (props) => {
-
   return (
     <FullScreen>
         <LeftPanelContainer>

@@ -33,27 +33,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Views\Shared\app.css" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\QuizMoon.BL\QuizMoon.BL.csproj" />
     <ProjectReference Include="..\QuizMoon.DA\QuizMoon.DA.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\Shared\_Layout.cshtml" />
-    <None Include="wwwroot\css\app.css" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="wwwroot\css\app.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Folder Include="NewFolder\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
