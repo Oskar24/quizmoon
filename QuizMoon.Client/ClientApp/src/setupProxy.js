@@ -1,10 +1,10 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
-const { env } = require('process');
 
 const context =  [
   "/api",
   "/account",
   "/css",
+  "/img",
 ];
 
 module.exports = function(app) {

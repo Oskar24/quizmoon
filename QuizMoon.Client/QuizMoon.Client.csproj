@@ -33,6 +33,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\img\Astro.png" />
+    <Content Remove="wwwroot\img\Quizmoon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Views\Shared\app.css" />
   </ItemGroup>
 
@@ -48,6 +53,8 @@
   <ItemGroup>
     <None Include="Views\Shared\_Layout.cshtml" />
     <None Include="wwwroot\css\app.css" />
+    <None Include="wwwroot\img\Astro.png" />
+    <None Include="wwwroot\img\Quizmoon.png" />
   </ItemGroup>
 
   <ItemGroup>
