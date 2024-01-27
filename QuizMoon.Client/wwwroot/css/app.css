@@ -7,7 +7,7 @@
 }
 
 body {
-    background: #33353a;
+    background: #222429;
     color: #fcfefd;
     width: 100%;
     height: 100%;
@@ -65,7 +65,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
+    background: #33353a;
 }
 
 .border-content:before {
@@ -168,7 +168,7 @@ input::placeholder {
     margin: 10px;
     display: flex;
     flex-direction: row;
-    justify-content: right;
+    justify-content: left;
 }
 
 .main-buttons {
