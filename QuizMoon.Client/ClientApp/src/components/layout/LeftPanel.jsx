@@ -77,6 +77,10 @@ function redirectToLogin() {
     window.location.href = "account/Login";
 }
 
+function redirectToRegister() {
+    window.location.href = "account/Register";
+}
+
 function redirectToLogout() {
     window.location.href = "account/Logout";
 }
@@ -124,7 +128,7 @@ const LeftPanel = () => {
                     :
                     <>
                         <Button label="Login" variant="primary" size="small" onClick={redirectToLogin}></Button>
-                        <Button label="Register" variant="primary" size="small" ></Button>
+                        <Button label="Register" variant="primary" size="small" onClick={redirectToRegister}></Button>
                     </>
                 }
             </UserButtonsContainer>

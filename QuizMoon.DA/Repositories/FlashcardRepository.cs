@@ -3,7 +3,7 @@ using QuizMoon.Models.Entities;
 
 namespace QuizMoon.DA.Repositories;
 
-public class FlashcardRepository(AppDbContext dbContext) : IFlashcardRepository
+public class FlashcardRepository(AppContext dbContext) : IFlashcardRepository
 {
     public async Task<List<Flashcard>> GetAllAsync()
     {

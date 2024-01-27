@@ -5,32 +5,36 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QuizMoon.Client;
+using QuizMoon.DA;
+using QuizMoon.Models.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+Startup.ConfigureServices(builder.Services);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllersWithViews();
+builder.Services.AddIdentity<User, UserRole>()
+    .AddEntityFrameworkStores<UserContext>();
 
-Startup.ConfigureServices(builder.Services);
+//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+//    .AddCookie(options =>
+//    {
+//        options.Cookie.Name = "__Host-spa";
+//        options.Cookie.SameSite = SameSiteMode.Strict;
+//        options.Events.OnRedirectToLogin = (context) =>
+//        {
+//            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+//            return Task.CompletedTask;
+//        };
+//    });
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.Cookie.Name = "__Host-spa";
-        options.Cookie.SameSite = SameSiteMode.Strict;
-        options.Events.OnRedirectToLogin = (context) =>
-        {
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            return Task.CompletedTask;
-        };
-    });
-
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("admin", policy => policy.RequireClaim("role", "Admin"));
-});
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.AddPolicy("admin", policy => policy.RequireClaim("role", "Admin"));
+//});
 
 var app = builder.Build();
 

@@ -4,7 +4,7 @@ using QuizMoon.Models.Entities;
 
 namespace QuizMoon.DA;
 
-public class AppDbContext : DbContext
+public class AppContext : DbContext
 {
     public DbSet<Flashcard> Flashcards => Set<Flashcard>();
 

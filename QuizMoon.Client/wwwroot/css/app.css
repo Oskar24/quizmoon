@@ -54,7 +54,7 @@ body {
 
 .title {
     font-size: 24px;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
 }
 
 .border-content {
@@ -136,7 +136,7 @@ input::placeholder {
     color: inherit;
     border: none;
     height: 40px;
-    width: 120px;
+    width: 160px;
     margin: 5px;
     transition: all 0.15s ease;
     cursor: pointer;
@@ -164,8 +164,42 @@ input::placeholder {
         color: #33acdf;
     }
 
+.btn-secondary {
+    position: relative;
+    background: transparent;
+    color: inherit;
+    border: none;
+    height: 40px;
+    width: 160px;
+    margin: 5px;
+    transition: all 0.15s ease;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: "Segoe UI Light";
+}
+
+.btn-secondary::after {
+        content: '';
+        position: absolute;
+        bottom: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0%;
+        height: 1px;
+        background-color: #d4a32c;
+        transition: all 0.15s ease;
+    }
+
+.btn-secondary:hover:after {
+        width: 30%;
+    }
+
+    .btn-secondary:hover {
+        color: #d4a32c;
+    }
+
 .login-remember {
-    margin: 10px;
+    margin-left: 10px;
     display: flex;
     flex-direction: row;
     justify-content: left;
@@ -175,5 +209,11 @@ input::placeholder {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-top: 40px;
+    margin-top: 20px;
+}
+
+.header-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: right;
 }

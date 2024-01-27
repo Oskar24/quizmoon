@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using QuizMoon.Models.Entities;
+using QuizMoon.Models.Identity;
 
 namespace QuizMoon.DA;
 
-public class UserContext(DbContextOptions<UserContext> options) : IdentityDbContext<User>(options)
+public class UserContext(DbContextOptions<UserContext> options) : IdentityDbContext<User, UserRole, string>(options)
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

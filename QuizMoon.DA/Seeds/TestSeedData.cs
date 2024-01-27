@@ -44,7 +44,43 @@ public class TestSeedData
                 Id = 6,
                 Question = "How do you handle exceptions in C#?",
                 Answer = "Using a try-catch block."
+            },
+            new()
+            {
+                Id = 7,
+                Question = "What is the difference between '==' and 'Equals' method in C#?",
+                Answer = "'==' is used for checking reference equality, while 'Equals' is used for checking object equality based on overridden implementation."
+            },
+            new()
+            {
+                Id = 8,
+                Question = "What is a lambda expression in C#?",
+                Answer = "A concise way to represent anonymous methods using the '=>' syntax."
+            },
+            new()
+            {
+                Id = 9,
+                Question = "Explain the 'using' statement in C#.",
+                Answer = "It is used to define a scope at the end of which an object will be disposed of, helping in resource management."
+            },
+            new()
+            {
+                Id = 10,
+                Question = "What is the purpose of the 'var' keyword in C#?",
+                Answer = "'var' is used for implicitly declaring a local variable, letting the compiler infer its type."
+            },
+            new()
+            {
+                Id = 11,
+                Question = "How do you implement an interface in C#?",
+                Answer = "A class implements an interface by providing concrete implementations for all the methods declared in the interface."
+            },
+            new()
+            {
+                Id = 12,
+                Question = "What is the difference between 'StringBuilder' and 'String' in C#?",
+                Answer = "'StringBuilder' is mutable and can be modified, while 'String' is immutable and cannot be changed after creation."
             }
-        });
+    });
     }
 }

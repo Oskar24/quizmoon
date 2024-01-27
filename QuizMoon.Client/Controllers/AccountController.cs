@@ -8,11 +8,16 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
+using QuizMoon.Models.Identity;
 
 namespace QuizMoon.Client.Controllers
 {
     [Route("account/[action]")]
-    public class AccountController(IUserRepository userRepository) : Controller
+    public class AccountController(
+        IUserRepository userRepository,
+        UserManager<User> userManager,
+        SignInManager<User> signInManager) : Controller
     {
         [HttpGet]
         public IActionResult Login()
@@ -24,26 +29,34 @@ namespace QuizMoon.Client.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model)
         {
-            var user = userRepository.GetByUsernameAndPassword(model.Username, model.Password);
-            if (user == null)
+            var result = await signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberLogin, false);
+            if (!result.Succeeded)
             {
-                return Unauthorized();
+                return View(model);
             }
 
-            var claims = new List<Claim>
+            return Redirect("/");
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View(new RegisterModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterModel model)
+        {
+            var newUser = new User() { UserName = model.Email, Email = model.Email };
+            var result = await userManager.CreateAsync(newUser, model.Password);
+
+            if (!result.Succeeded)
             {
-                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new(ClaimTypes.Name, user.Name),
-                new("role", user.Role),
-                new("FavoriteColor", user.FavoriteColor)
-            };
+                return View(model);
+            }
 
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
-
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal,
-                new AuthenticationProperties { IsPersistent = model.RememberLogin });
-
+            await signInManager.SignInAsync(newUser, false);
             return Redirect("/");
         }
 
@@ -51,7 +64,7 @@ namespace QuizMoon.Client.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await signInManager.SignOutAsync();
             return Redirect("/");
         }
 
