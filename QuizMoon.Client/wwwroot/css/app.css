@@ -1,0 +1,219 @@
+﻿html {
+    width: 100%;
+    height: 100%;
+    font-family: 'Segoe UI Light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+    font-weight: 100;
+}
+
+body {
+    background: #222429;
+    color: #fcfefd;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+}
+
+.main-div {
+    height: 100%;
+    width: 100%;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.logo-container {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -200px;
+    margin-bottom: 100px;
+}
+
+#astro-logo {
+    width: 70px;
+    margin-top: 20px;
+}
+
+#astro-text {
+    margin-top: 10px;
+    width: 200px;
+}
+
+.title {
+    font-size: 24px;
+    margin-bottom: 40px;
+}
+
+.border-content {
+    width: 800px;
+    height: 400px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #33353a;
+}
+
+.border-content:before {
+    position: absolute;
+    content: "";
+    width: 100px;
+    height: 100px;
+    top: -30px;
+    left: -30px;
+    z-index: -1;
+    border-left: 10px solid #33acdf;
+    border-top: 10px solid #33acdf;
+}
+
+.border-content:after {
+    position: absolute;
+    content: "";
+    width: 100px;
+    height: 100px;
+    right: -30px;
+    bottom: -30px;
+    z-index: -1;
+    border-right: 10px solid #d4a32c;
+    border-bottom: 10px solid #d4a32c;
+}
+
+.panel-body {
+    width: 300px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-control {
+    width: 300px;
+    height: 30px;
+    border: 0px;
+    border: none; /* <-- This thing here */
+    border: solid 1px #fcfefd;
+    border-radius: 2px;
+    background: #33353a;
+    color: #fcfefd;
+    margin: 10px;
+    text-indent: 10px;
+    font-family: "Segoe UI Light";
+    font-size: 16px;
+    line-height: 30px;
+}
+
+input::placeholder {
+    text-indent: 10px;
+    color: #fcfefd;
+    opacity: 0.8;
+    font-family: "Segoe UI Light";
+}
+
+.form-control:focus {
+        outline-style: solid;
+        outline-color: #d4a32c;
+    outline-width: 2px;
+    }
+
+.btn-primary {
+    position: relative;
+    background: transparent;
+    color: inherit;
+    border: none;
+    height: 40px;
+    width: 160px;
+    margin: 5px;
+    transition: all 0.15s ease;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: "Segoe UI Light";
+}
+
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0%;
+    height: 1px;
+    background-color: #33acdf;
+    transition: all 0.15s ease;
+}
+
+.btn-primary:hover:after {
+        width: 30%;
+    }
+
+.btn-primary:hover {
+        color: #33acdf;
+    }
+
+.btn-secondary {
+    position: relative;
+    background: transparent;
+    color: inherit;
+    border: none;
+    height: 40px;
+    width: 160px;
+    margin: 5px;
+    transition: all 0.15s ease;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: "Segoe UI Light";
+}
+
+.btn-secondary::after {
+        content: '';
+        position: absolute;
+        bottom: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0%;
+        height: 1px;
+        background-color: #d4a32c;
+        transition: all 0.15s ease;
+    }
+
+.btn-secondary:hover:after {
+        width: 30%;
+    }
+
+    .btn-secondary:hover {
+        color: #d4a32c;
+    }
+
+.login-remember {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+.main-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.header-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+}

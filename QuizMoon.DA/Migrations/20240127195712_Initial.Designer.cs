@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuizMoon.DA;
 
@@ -9,19 +10,21 @@ using QuizMoon.DA;
 
 namespace QuizMoon.DA.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(AppContext))]
+    [Migration("20240127195712_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("QuizMoon.Models.Flashcard", b =>
+            modelBuilder.Entity("QuizMoon.Models.Entities.Flashcard", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,7 +40,7 @@ namespace QuizMoon.DA.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FlashCards");
+                    b.ToTable("Flashcards");
 
                     b.HasData(
                         new
@@ -75,6 +78,42 @@ namespace QuizMoon.DA.Migrations
                             Id = 6,
                             Answer = "Using a try-catch block.",
                             Question = "How do you handle exceptions in C#?"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Answer = "'==' is used for checking reference equality, while 'Equals' is used for checking object equality based on overridden implementation.",
+                            Question = "What is the difference between '==' and 'Equals' method in C#?"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Answer = "A concise way to represent anonymous methods using the '=>' syntax.",
+                            Question = "What is a lambda expression in C#?"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Answer = "It is used to define a scope at the end of which an object will be disposed of, helping in resource management.",
+                            Question = "Explain the 'using' statement in C#."
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Answer = "'var' is used for implicitly declaring a local variable, letting the compiler infer its type.",
+                            Question = "What is the purpose of the 'var' keyword in C#?"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Answer = "A class implements an interface by providing concrete implementations for all the methods declared in the interface.",
+                            Question = "How do you implement an interface in C#?"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Answer = "'StringBuilder' is mutable and can be modified, while 'String' is immutable and cannot be changed after creation.",
+                            Question = "What is the difference between 'StringBuilder' and 'String' in C#?"
                         });
                 });
 #pragma warning restore 612, 618
