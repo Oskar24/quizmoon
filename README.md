@@ -22,15 +22,15 @@
 #### API Documentation:
 - **Swagger:** Ensuring clear and comprehensive documentation of the API.
 
-### Future:
+### Planned:
 - **IdentityServer**: Planned integration to enhance authentication and authorization capabilities, providing a more flexible and scalable identity solution.
 - **Docker Integration**: Implement Docker containerization for QuizMoon to enhance scalability.
 
 ## Features
-### Current
+### Current:
 - **Basic Flashcard Browsing:** Allows users to navigate through flashcards for learning purposes.
     
-### Planned Features
+### Planned:
 - **Extended Flashcard Functionality:** Expand flashcard features, including quiz functionalities, progress tracking, and personalized learning paths.
 - **Enhanced User Experience:** Continuously improve the user interface and experience with additional interactive elements.
 - **Content Creation Tools:** Provide users with the ability to create, edit, and share their own flashcards and quizzes.
