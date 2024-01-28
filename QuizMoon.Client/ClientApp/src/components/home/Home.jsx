@@ -18,6 +18,7 @@ const FlashcardsContainer = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
 `;
 
 const FlashcardBorder = styled.div`
@@ -83,17 +84,21 @@ const Home = () => {
 
     const handleCardClick = (cardId) => {
         if (flippedCard === null) {
-            // Brak odwróconych kart, odwróć aktualną
             setFlippedCard(cardId);
-        } else {
-            // Jeśli inna karta jest odwrócona, odwróć poprzednią z opóźnieniem
-            setPrevFlippedCard(flippedCard);
-            setFlippedCard(cardId);
-
-            // Odwróć poprzednią kartę z 1-sekundowym opóźnieniem
-            setTimeout(() => {
+        }
+        else {
+            if (flippedCard === cardId) {
                 setPrevFlippedCard(null);
-            }, 500);
+                setFlippedCard(null);
+            }
+            else {
+                setPrevFlippedCard(flippedCard);
+                setFlippedCard(cardId);
+
+                setTimeout(() => {
+                    setPrevFlippedCard(null);
+                }, 500);
+            }
         }
     };
 
@@ -108,11 +113,9 @@ const Home = () => {
                         {flashcards.map((flashcard) => (
                             <FlashcardBorder
                                 key={flashcard.id}
-                                className={`${
-                                    flippedCard === flashcard.id ? 'flipped' : ''
-                                } ${flippedCard === flashcard.id ? 'answer' : 'question'} ${
-                                    prevFlippedCard === flashcard.id ? 'flipped' : ''
-                                } ${prevFlippedCard === flashcard.id ? 'question' : ''}`}
+                                className={`${flippedCard === flashcard.id ? 'flipped' : ''
+                                    } ${flippedCard === flashcard.id ? 'answer' : 'question'} ${prevFlippedCard === flashcard.id ? 'flipped' : ''
+                                    } ${prevFlippedCard === flashcard.id ? 'question' : ''}`}
                                 onClick={() => handleCardClick(flashcard.id)}
                             >
                                 <FlashcardContent>

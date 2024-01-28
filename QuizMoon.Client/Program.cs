@@ -19,6 +19,16 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddIdentity<User, UserRole>()
     .AddEntityFrameworkStores<UserContext>();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.SameSite = SameSiteMode.Strict;
+    options.Events.OnRedirectToLogin = (context) =>
+    {
+        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        return Task.CompletedTask;
+    };
+});
+
 //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 //    .AddCookie(options =>
 //    {
