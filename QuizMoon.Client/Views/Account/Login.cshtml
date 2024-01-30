@@ -14,6 +14,8 @@
 
         <div class="title">Log in to continue:</div>
         
+        @Html.ValidationMessage("message_key", new { @class = "text-danger" })
+
         <div class="panel-body">
             <form asp-route="Login" method="post">
                 <input class="form-control" placeholder="Username" asp-for="Username" autofocus>

@@ -1,15 +1,12 @@
-﻿using System.Security.Claims;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using QuizMoon.Client.Api;
 using QuizMoon.Client.Model;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using System.Linq;
-using Microsoft.AspNetCore.Identity;
 using QuizMoon.Models.Identity;
+using System.Linq;
+using System.Threading.Tasks;
+using static QuizMoon.Client.Validators.CustomModelValidators;
 
 namespace QuizMoon.Client.Controllers
 {
@@ -34,15 +31,22 @@ namespace QuizMoon.Client.Controllers
                 return View(model);
             }
 
+            if (!IsValidEmail(model.Username))
+            {
+                ModelState.AddModelError(nameof(model.Username), "Please enter a valid email address.");
+                return View(model);
+            }
+
             var result = await signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberLogin, false);
             if (!result.Succeeded)
             {
-                ModelState.AddModelError("mesagge_key", "exception message");
+                ModelState.AddModelError("message_key", "This user does not exist.");
                 return View(model);
             }
 
             return Redirect("/");
         }
+
 
         [HttpGet]
         public IActionResult Register()
@@ -55,6 +59,7 @@ namespace QuizMoon.Client.Controllers
         public async Task<IActionResult> Register(RegisterModel model)
         {
             var newUser = new User() { UserName = model.Email, Email = model.Email };
+
             var result = await userManager.CreateAsync(newUser, model.Password);
 
             if (!result.Succeeded)
