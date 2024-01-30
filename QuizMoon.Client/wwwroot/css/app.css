@@ -104,13 +104,11 @@ body {
 .form-control {
     width: 300px;
     height: 30px;
-    border: 0px;
-    border: none; /* <-- This thing here */
     border: solid 1px #fcfefd;
     border-radius: 2px;
     background: #33353a;
     color: #fcfefd;
-    margin: 10px;
+    margin: 10px 10px 0px 10px;
     text-indent: 10px;
     font-family: "Segoe UI Light";
     font-size: 16px;
@@ -199,7 +197,7 @@ input::placeholder {
     }
 
 .login-remember {
-    margin-left: 10px;
+    margin: 10px 10px 0px 10px;
     display: flex;
     flex-direction: row;
     justify-content: left;
@@ -216,4 +214,12 @@ input::placeholder {
     width: 100%;
     display: flex;
     justify-content: right;
+}
+
+.text-danger {
+    font-size: 14px;
+    color: #d4a32c;
+    margin-left: 10px;
+    margin-top: 0px;
+    padding-top: 0px;
 }

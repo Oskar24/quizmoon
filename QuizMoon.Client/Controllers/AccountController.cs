@@ -29,9 +29,15 @@ namespace QuizMoon.Client.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             var result = await signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberLogin, false);
             if (!result.Succeeded)
             {
+                ModelState.AddModelError("mesagge_key", "exception message");
                 return View(model);
             }
 
