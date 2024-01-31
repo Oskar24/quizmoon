@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using QuizMoon.Client.Api;
 using QuizMoon.Client.Model;
 using QuizMoon.Models.Identity;
 using System.Linq;
@@ -12,7 +11,6 @@ namespace QuizMoon.Client.Controllers
 {
     [Route("account/[action]")]
     public class AccountController(
-        IUserRepository userRepository,
         UserManager<User> userManager,
         SignInManager<User> signInManager) : Controller
     {
@@ -31,13 +29,13 @@ namespace QuizMoon.Client.Controllers
                 return View(model);
             }
 
-            if (!IsValidEmail(model.Username))
+            if (!IsValidEmail(model.Email))
             {
-                ModelState.AddModelError(nameof(model.Username), "Please enter a valid email address.");
+                ModelState.AddModelError(nameof(model.Email), "Please enter a valid email address.");
                 return View(model);
             }
 
-            var result = await signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberLogin, false);
+            var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberLogin, false);
             if (!result.Succeeded)
             {
                 ModelState.AddModelError("message_key", "This user does not exist.");
@@ -58,16 +56,37 @@ namespace QuizMoon.Client.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterModel model)
         {
-            var newUser = new User() { UserName = model.Email, Email = model.Email };
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            
+            if (!IsValidEmail(model.Email))
+            {
+                ModelState.AddModelError(nameof(model.Email), "Please enter a valid email address.");
+                return View(model);
+            }
+
+            var newUser = new User { UserName = model.Email, Email = model.Email };
 
             var result = await userManager.CreateAsync(newUser, model.Password);
 
             if (!result.Succeeded)
             {
+                if (result.Errors.Any(error => error.Description.ToLower().Contains("password")))
+                {
+                    ModelState.AddModelError("message_key", "Password must have at least 6 characters, one uppercase letter, one digit, and one special character.");
+                }
                 return View(model);
             }
 
             await signInManager.SignInAsync(newUser, false);
+            return Redirect("/");
+        }
+
+        [HttpGet]
+        public IActionResult GoBackToMainPage()
+        {
             return Redirect("/");
         }
 

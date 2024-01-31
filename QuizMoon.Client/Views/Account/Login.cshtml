@@ -9,20 +9,26 @@
     <div class="border-content">
 
         <div class="header-buttons">
-            <button class="btn-secondary" onclick="history.go(-1)"><img src="/img/x.png" alt="Back" style="height: 14px; filter: invert(100%);" /></button>
+            <button class="btn-secondary" onclick="location.href='@Url.Action("GoBackToMainPage", "Account")'"><img src="/img/x.png" alt="Back" style="height: 14px; filter: invert(100%);" /></button>
         </div>
 
         <div class="title">Log in to continue:</div>
         
-        @Html.ValidationMessage("message_key", new { @class = "text-danger" })
+        <div class="message-row">
+            @Html.ValidationMessage("message_key", new { @class = "text-danger" })
+        </div>
 
         <div class="panel-body">
             <form asp-route="Login" method="post">
-                <input class="form-control" placeholder="Username" asp-for="Username" autofocus>
-                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                <div class="input-row">
+                    <input class="form-control" placeholder="Email" asp-for="Email" autofocus>
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
 
-                <input type="password" class="form-control" placeholder="Password" asp-for="Password" autocomplete="off">
-                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                <div class="input-row">
+                    <input type="password" class="form-control" placeholder="Password" asp-for="Password" autocomplete="off">
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
 
                 <div class="login-remember">
                     <label asp-for="RememberLogin"><span>Remember me</span><input type="checkbox" asp-for="RememberLogin"></label>
