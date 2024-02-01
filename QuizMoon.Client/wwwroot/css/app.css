@@ -52,9 +52,6 @@ body {
     width: 200px;
 }
 
-.title {
-    font-size: 24px;
-}
 
 .border-content {
     width: 800px;
@@ -62,7 +59,7 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
     background: #33353a;
 }
@@ -91,13 +88,45 @@ body {
     border-bottom: 10px solid #d4a32c;
 }
 
-.panel-body {
-    width: 300px;
+.border-header {
+    width: 100%;
+    flex: 0 0 70px;
+    display: flex;
+    flex-direction:row;
+    align-items: end;
+}
+
+.message-row {
+    flex: 0 0 50px;
+    text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.border-body {
+    width: 300px;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
 }
+
+.header-buttons-left{
+    flex: 0 0 25%;
+}
+
+.header-buttons-right {
+    flex: 0 0 25%;
+}
+
+.title {
+    flex: 1 1 50%;
+    font-size: 24px;
+    text-align: center;
+}
+
 
 .form-control {
     width: 300px;
@@ -121,10 +150,11 @@ input::placeholder {
 }
 
 .form-control:focus {
-        outline-style: solid;
-        outline-color: #d4a32c;
+    outline-style: solid;
+    outline-color: #d4a32c;
     outline-width: 2px;
-    }
+    border: solid 1px transparent;    
+}
 
 .btn-primary {
     position: relative;
@@ -205,6 +235,7 @@ input::placeholder {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    flex: 0 0 60px;
 }
 
 .header-buttons {
@@ -222,14 +253,8 @@ input::placeholder {
     padding-top: 0px;
 }
 
-.message-row {
-    width: 400px;
-    height: 40px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
 .input-row {
     height: 65px;
 }
+
+

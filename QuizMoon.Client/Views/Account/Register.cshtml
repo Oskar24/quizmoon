@@ -7,18 +7,22 @@
     </div>
 
     <div class="border-content">
-        <div class="header-buttons">
-            <button class="btn-secondary" onclick="location.href='@Url.Action("GoBackToMainPage", "Account")'"><img src="/img/x.png" alt="Back" style="height: 14px; filter: invert(100%);" /></button>
+
+        <div class="border-header">
+            <div class="header-buttons-left"></div>
+            <div class="title">Register your new account:</div>
+            <div class="header-buttons-right">
+                <button class="btn-secondary" onclick="location.href='@Url.Action("GoBackToMainPage", "Account")'"><img src="/img/x.png" alt="Back" style="height: 14px; filter: invert(100%);" /></button>
+            </div>
         </div>
 
-        <div class="title">Register your new account:</div>
-        
+
         <div class="message-row">
             @Html.ValidationMessage("message_key", new { @class = "text-danger" })
         </div>
 
-        <div class="panel-body">
-            <form asp-route="Register" method="post">
+        <div class="border-body">
+            <form asp-route="Register" method="post" id="main-form">
                 <div class="input-row">
                     <input class="form-control" placeholder="Email" asp-for="Email" autofocus>
                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
@@ -33,10 +37,10 @@
                     <input type="password" class="form-control" placeholder="Password confirmation" asp-for="PasswordConfirmation" autocomplete="off">
                     @Html.ValidationMessageFor(model => model.PasswordConfirmation, "", new { @class = "text-danger" })
                 </div>
-                <div class="main-buttons">
-                    <button class="btn-primary" type="submit">Register</button>
-                </div>
             </form>
+            <div class="main-buttons">
+                <button class="btn-primary" type="submit" form="main-form">Register</button>
+            </div>
         </div>
     </div>
 </div>

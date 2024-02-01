@@ -7,19 +7,22 @@
     </div>
 
     <div class="border-content">
-
-        <div class="header-buttons">
-            <button class="btn-secondary" onclick="location.href='@Url.Action("GoBackToMainPage", "Account")'"><img src="/img/x.png" alt="Back" style="height: 14px; filter: invert(100%);" /></button>
+        
+        
+        <div class="border-header">
+            <div class="header-buttons-left"></div>
+            <div class="title">Log in to continue:</div>
+            <div class="header-buttons-right">
+                <button class="btn-secondary" onclick="location.href='@Url.Action("GoBackToMainPage", "Account")'"><img src="/img/x.png" alt="Back" style="height: 14px; filter: invert(100%);"/></button>
+            </div>
         </div>
-
-        <div class="title">Log in to continue:</div>
         
         <div class="message-row">
             @Html.ValidationMessage("message_key", new { @class = "text-danger" })
         </div>
 
-        <div class="panel-body">
-            <form asp-route="Login" method="post">
+        <div class="border-body">
+            <form asp-route="Login" method="post" id="main-form">
                 <div class="input-row">
                     <input class="form-control" placeholder="Email" asp-for="Email" autofocus>
                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
@@ -33,10 +36,10 @@
                 <div class="login-remember">
                     <label asp-for="RememberLogin"><span>Remember me</span><input type="checkbox" asp-for="RememberLogin"></label>
                 </div>
-                <div class="main-buttons">
-                    <button class="btn-primary" type="submit">Login</button>
-                </div>
             </form>
+            <div class="main-buttons">
+                <button class="btn-primary" type="submit" form="main-form">Login</button>
+            </div>
         </div>
     </div>
 </div>
