@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,8 +17,13 @@ Startup.ConfigureServices(builder.Services);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllersWithViews();
-builder.Services.AddIdentity<User, UserRole>()
-    .AddEntityFrameworkStores<UserContext>();
+builder.Services.AddIdentity<User, UserRole>(options =>
+    {
+        options.SignIn.RequireConfirmedEmail = true;
+        options.User.RequireUniqueEmail = true;
+    })
+    .AddEntityFrameworkStores<UserContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -28,7 +34,6 @@ builder.Services.ConfigureApplicationCookie(options =>
         return Task.CompletedTask;
     };
 });
-
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {

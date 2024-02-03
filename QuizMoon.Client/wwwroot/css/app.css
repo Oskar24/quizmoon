@@ -257,4 +257,10 @@ input::placeholder {
     height: 65px;
 }
 
-
+.body-message {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 60%;
+}
