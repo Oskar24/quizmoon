@@ -1,8 +1,8 @@
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import * as COLORS from '../../constants/Colors';
 import Button from "../common/Button";
 import fetchUser from "../../hooks/UserHooks";
-import { useState, useEffect } from "react";
 
 const Panel = styled.div`
     display: flex;
@@ -104,8 +104,8 @@ function redirectToLogout() {
     window.location.href = "account/Logout";
 }
 
-const LeftPanel = () => {
-    const [userClaims, setUserClaims] = useState(null);
+const LeftPanel: React.FC = () => {
+    const [userClaims, setUserClaims] = useState<any>(null);
 
     const fetchUserData = async () => {
         try {
@@ -118,8 +118,8 @@ const LeftPanel = () => {
         }
     };
 
-    const getClaimValue = (type) => {
-        const claim = userClaims.find(claim => claim.type === type);
+    const getClaimValue = (type: string) => {
+        const claim = userClaims.find((claim: any) => claim.type === type);
         return claim ? claim.value : null;
     };
 
