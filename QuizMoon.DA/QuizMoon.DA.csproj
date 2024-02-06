@@ -25,4 +25,8 @@
     <ProjectReference Include="..\QuizMoon.Models\QuizMoon.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\User\" />
+  </ItemGroup>
+
 </Project>

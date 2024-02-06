@@ -7,10 +7,9 @@ using QuizMoon.Models.Identity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QuizMoon.Client.Email;
 using static QuizMoon.Client.Validators.CustomModelValidators;
 using Microsoft.AspNetCore.WebUtilities;
-using System.Text.Encodings.Web;
+using QuizMoon.Client.Services.Email.Interfaces;
 
 namespace QuizMoon.Client.Controllers
 {
@@ -18,15 +17,17 @@ namespace QuizMoon.Client.Controllers
     public class AccountController(
         UserManager<User> userManager,
         SignInManager<User> signInManager,
-        IEmailSender emailSender) : Controller
+        IEmailService emailService) : Controller
     {
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View(new LoginModel());
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model)
         {
@@ -42,30 +43,24 @@ namespace QuizMoon.Client.Controllers
             }
 
             var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberLogin, false);
-            if (!result.Succeeded)
+            if (result.Succeeded)
             {
-                if (result.IsNotAllowed)
-                {
-                    ModelState.AddModelError("message_key", "Please ensure your email is confirmed .");
-                }
-                else
-                {
-                    ModelState.AddModelError("message_key", "This user does not exist or password is wrong.");
-                }
-                return View(model);
+                return Redirect("/");
             }
 
-            return Redirect("/");
+            ModelState.AddModelError("message_key", result.IsNotAllowed ? "Please ensure your email is confirmed." : "This user does not exist or password is wrong.");
+            return View(model);
         }
 
-
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View(new RegisterModel());
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterModel model)
         {
@@ -73,7 +68,7 @@ namespace QuizMoon.Client.Controllers
             {
                 return View(model);
             }
-            
+
             if (!IsValidEmail(model.Email))
             {
                 ModelState.AddModelError(nameof(model.Email), "Please enter a valid email address.");
@@ -86,14 +81,8 @@ namespace QuizMoon.Client.Controllers
 
             if (result.Succeeded)
             {
-                var confirmationToken = await userManager.GenerateEmailConfirmationTokenAsync(newUser);
-                confirmationToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(confirmationToken));
-                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = newUser.Id, code = confirmationToken }, Request.Scheme);
-
-                var emailMessage = $"<b style=\"color: #222429\">Welcome to <span style=\"color: #33acdf\">Q</span>uiz<span style=\"color: #d4a32c\">m</span>oon!</b>" +
-                                   $"<br>Click here to confirm your email:<br><a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Confirm your email</a>";
-                await emailSender.SendEmailAsync("oskar.karbownik@live.com", "Confirm your email", emailMessage);
-                
+                var callbackUrl = await GetCallbackUrlByEmail(model.Email);
+                await emailService.SendEmailConfirmation(model.Email, callbackUrl);
                 return View("ConfirmationRequiredNotification");
             }
 
@@ -102,7 +91,7 @@ namespace QuizMoon.Client.Controllers
                 return View(model);
             }
 
-            if (result.Errors.Any(error => error.Description.ToLower().Contains("password")))
+            if (result.Errors.Any(error => error.Code.StartsWith("Password")))
             {
                 ModelState.AddModelError("message_key", "Password must have at least 6 characters, one uppercase letter, one digit, and one special character.");
             }
@@ -115,11 +104,9 @@ namespace QuizMoon.Client.Controllers
             return View(model);
         }
 
-
-
-
         [HttpGet]
-        public async Task<IActionResult> ConfirmEmail(string? userId, string? code, string returnUrl)
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string? userId, string? code)
         {
             if (userId == null || code == null)
             {
@@ -130,9 +117,8 @@ namespace QuizMoon.Client.Controllers
             if (user == null)
             {
                 return Redirect("/");
-                //return RedirectToAction("Error", "Home");
             }
-            Console.WriteLine("TEST!");
+
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await userManager.ConfirmEmailAsync(user, code);
 
@@ -141,16 +127,42 @@ namespace QuizMoon.Client.Controllers
                 return View("ConfirmationSuccessNotification");
             }
 
+            if (result.Errors.Any(error => error.Code == "InvalidToken"))
+            {
+                return View("ConfirmationErrorNotification", new EmailConfirmationRequest());
+
+            }
             return Redirect("/");
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> RenewEmailConfirmation(EmailConfirmationRequest model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("ConfirmationErrorNotification", model);
+            }
+
+            if (!IsValidEmail(model.Email))
+            {
+                ModelState.AddModelError(nameof(model.Email), "Please enter a valid email address.");
+                return View("ConfirmationErrorNotification", model);
+            }
+
+            var callbackUrl = await GetCallbackUrlByEmail(model.Email);
+
+            await emailService.SendEmailConfirmation(model.Email, callbackUrl);
+            return View("ConfirmationRequiredNotification");
+        }
+
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult GoBackToMainPage()
         {
             return Redirect("/");
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
@@ -164,6 +176,28 @@ namespace QuizMoon.Client.Controllers
         {
             var result = new JsonResult(User.Claims.Select(c => new { Type = c.Type, Value = c.Value }));
             return result;
+        }
+
+        private async Task<string> GetCallbackUrlByEmail(string userEmail)
+        {
+            var user = await userManager.FindByEmailAsync(userEmail);
+            if (user == null)
+            {
+                // TODO: Improve error handling
+                throw new Exception($"User with such email: {userEmail} does not exist");
+            }
+
+            var confirmationToken = await userManager.GenerateEmailConfirmationTokenAsync(user);
+            confirmationToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(confirmationToken));
+            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = confirmationToken }, Request.Scheme);
+
+            if (callbackUrl == null)
+            {
+                // TODO: Improve error handling
+                throw new Exception("Something went wrong with callback url");
+            }
+
+            return callbackUrl;
         }
     }
 }

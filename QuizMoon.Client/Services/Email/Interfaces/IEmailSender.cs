@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace QuizMoon.Client.Email;
+namespace QuizMoon.Client.Services.Email.Interfaces;
 
 public interface IEmailSender
 {

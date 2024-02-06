@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace QuizMoon.Models.Entities;
+﻿namespace QuizMoon.Models.Entities;
 
 public class Flashcard
 {

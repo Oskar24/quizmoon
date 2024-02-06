@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +18,7 @@ Startup.ConfigureServices(builder.Services);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddIdentity<User, UserRole>(options =>
     {
         options.SignIn.RequireConfirmedEmail = true;
@@ -65,7 +67,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapDefaultControllerRoute();
-app.MapControllers();
+app.MapControllers().RequireAuthorization();
 
 app.MapFallbackToFile("index.html"); ;
 app.Run();

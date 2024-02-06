@@ -1,0 +1,36 @@
+﻿@model QuizMoon.Client.Model.EmailConfirmationRequest
+
+<div class="main-content">
+    <div class="logo-container">
+        <img id="astro-logo" src="~/img/Astro.png" alt="Logo" />
+        <img id="astro-text" src="~/img/Quizmoon.png" alt="Logo" />
+    </div>
+
+    <div class="border-content">
+
+
+        <div class="border-header">
+            <div class="header-buttons-left"></div>
+            <div class="title">Something went wrong :(</div>
+            <div class="header-buttons-right">
+                <button class="btn-secondary" onclick="location.href='@Url.Action("GoBackToMainPage", "Account")'"><img src="/img/x.png" alt="Back" style="height: 14px; filter: invert(100%);" /></button>
+            </div>
+        </div>
+
+        <div class="border-body">
+            <div class="body-message">
+                Your email confirmation link may have expired. Please request a new confirmation email for further instructions.
+            </div>
+
+            <form asp-controller="Account" asp-action="RenewEmailConfirmation" method="post" id="main-form">
+                <div class="input-row">
+                    <input class="form-control" placeholder="Email" asp-for="Email" autofocus>
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </form>
+            <div class="main-buttons">
+                <button class="btn-primary" type="submit" form="main-form">Request</button>
+            </div>
+        </div>
+    </div>
+</div>
