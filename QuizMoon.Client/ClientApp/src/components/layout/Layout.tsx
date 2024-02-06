@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
@@ -21,7 +21,11 @@ const RightPanelContainer = styled.div`
   flex: 1 1 auto;
 `;
 
-const Layout = (props) => {
+interface LayoutProps {
+  children: ReactNode;
+}
+
+const Layout: React.FC<LayoutProps> = ({children}) => {
   return (
     <FullScreen>
         <LeftPanelContainer>
@@ -29,7 +33,7 @@ const Layout = (props) => {
         </LeftPanelContainer>
       <RightPanelContainer>
         <RightPanel>
-          {props.children}
+          {children}
         </RightPanel>
       </RightPanelContainer>
     </FullScreen>

@@ -62,16 +62,22 @@ const FlashcardAnswer = styled.div`
     margin-top: 40px;
 `;
 
-const Home = () => {
-    const [flashcards, setFlashcards] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [flippedCard, setFlippedCard] = useState(null);
-    const [prevFlippedCard, setPrevFlippedCard] = useState(null);
+interface Flashcard {
+    id: number;
+    question: string;
+    answer: string;
+}
+
+const Home: React.FC = () => {
+    const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [flippedCard, setFlippedCard] = useState<number | null>(null);
+    const [prevFlippedCard, setPrevFlippedCard] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchFlashcards = async () => {
             try {
-                const response = await axios.get('/api/Flashcard');
+                const response = await axios.get<Flashcard[]>('/api/Flashcard');
                 setFlashcards(response.data);
                 setLoading(false);
             } catch (error) {
@@ -82,7 +88,7 @@ const Home = () => {
         fetchFlashcards();
     }, []);
 
-    const handleCardClick = (cardId) => {
+    const handleCardClick = (cardId: number) => {
         if (flippedCard === null) {
             setFlippedCard(cardId);
         }
