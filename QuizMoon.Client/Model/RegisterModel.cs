@@ -1,10 +1,17 @@
-﻿namespace QuizMoon.Client.Model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace QuizMoon.Client.Model
 {
     public class RegisterModel
     {
-        public string Username { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-        public string PasswordConfirmation { get; set; } = string.Empty;
+        [Required]
         public string Email { get; set; } = string.Empty;
+        
+        [Required]
+        public string Password { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "The Confirmation field is required.")]
+        [Compare("Password", ErrorMessage = "The password and confirmation do not match.")]
+        public string PasswordConfirmation { get; set; } = string.Empty;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace QuizMoon.Models.Identity
 {
-    public class User : IdentityUser
+    public class User : IdentityUser<Guid>
     {
     }
 }

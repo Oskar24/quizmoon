@@ -4,7 +4,7 @@ using QuizMoon.Models.Identity;
 
 namespace QuizMoon.DA;
 
-public class UserContext(DbContextOptions<UserContext> options) : IdentityDbContext<User, UserRole, string>(options)
+public class UserContext(DbContextOptions<UserContext> options) : IdentityDbContext<User, UserRole, Guid>(options)
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

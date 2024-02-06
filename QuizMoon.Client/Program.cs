@@ -1,7 +1,9 @@
+using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QuizMoon.Client;
@@ -16,25 +18,33 @@ Startup.ConfigureServices(builder.Services);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllersWithViews();
-builder.Services.AddIdentity<User, UserRole>()
-    .AddEntityFrameworkStores<UserContext>();
 
-//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-//    .AddCookie(options =>
-//    {
-//        options.Cookie.Name = "__Host-spa";
-//        options.Cookie.SameSite = SameSiteMode.Strict;
-//        options.Events.OnRedirectToLogin = (context) =>
-//        {
-//            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-//            return Task.CompletedTask;
-//        };
-//    });
+builder.Services.AddIdentity<User, UserRole>(options =>
+    {
+        options.SignIn.RequireConfirmedEmail = true;
+        options.User.RequireUniqueEmail = true;
+    })
+    .AddEntityFrameworkStores<UserContext>()
+    .AddDefaultTokenProviders();
 
-//builder.Services.AddAuthorization(options =>
-//{
-//    options.AddPolicy("admin", policy => policy.RequireClaim("role", "Admin"));
-//});
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.SameSite = SameSiteMode.Strict;
+    options.Events.OnRedirectToLogin = (context) =>
+    {
+        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        return Task.CompletedTask;
+    };
+});
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    // Goal here is to disable default validation tooltip
+    options.SuppressModelStateInvalidFilter = true;
+    options.SuppressInferBindingSourcesForParameters = true;
+    options.SuppressMapClientErrors = true;
+});
+
 
 var app = builder.Build();
 
@@ -49,13 +59,15 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseExceptionHandler("/Error");
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseRouting();
 app.UseAuthorization();
 
 app.MapDefaultControllerRoute();
-app.MapControllers();
+app.MapControllers().RequireAuthorization();
 
 app.MapFallbackToFile("index.html"); ;
 app.Run();

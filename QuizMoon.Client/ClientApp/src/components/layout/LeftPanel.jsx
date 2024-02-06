@@ -39,8 +39,8 @@ const UserButtonsContainer = styled.div`
     justify-content: center;
     align-items: center;
     
+    min-height: 50px;
     border-top: 1px solid ${COLORS.MAIN_THEME_1};
-    border-bottom: 1px solid ${COLORS.MAIN_BORDER};
 `;
 
 const LogoImage = styled.img`
@@ -54,23 +54,42 @@ const LogoText = styled.img`
 `;
 
 const UserName = styled.div`
-    width: 80px;
-    height: 40px;
+    max-width: 250px;
+    overflow: hidden;
+    height: 50px;
     text-align: center;
-    line-height: 40px;
+    line-height: 50px;
     position: relative;
-    
+    display: block;
+
     &:after {
         content: '';
         position: absolute;
-        bottom: 10%;
+        bottom: 18%;
         left: 50%;
         transform: translateX(-50%);
         width: 30%;
         height: 1px;
-        background-color: ${COLORS.MAIN_THEME_1};
-        transition: all 0.15s ease;
+        background-color: ${COLORS.MAIN_THEME_2};
   }
+`;
+
+const LogoutButton = styled.div`
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+`;
+
+const Wrapper = styled.div`
+    width: 100%;
+    
+    &:hover ${UserName} {
+        display: none;
+    }
+
+    &:hover ${LogoutButton} {
+        display: flex;
+    }
 `;
 
 function redirectToLogin() {
@@ -122,13 +141,17 @@ const LeftPanel = () => {
             <UserButtonsContainer>
                 {userClaims ?
                     <>
-                        <UserName>{getClaimValue('http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name')}</UserName>
-                        <Button label="Logout" variant="primary" size="small" onClick={redirectToLogout}></Button>
+                        <Wrapper>
+                            <UserName>{getClaimValue('http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name')}</UserName>
+                            <LogoutButton>
+                                <Button label="Logout" variant="primary" onClick={redirectToLogout}></Button>
+                            </LogoutButton>
+                        </Wrapper>
                     </>
                     :
                     <>
-                        <Button label="Login" variant="primary" size="small" onClick={redirectToLogin}></Button>
-                        <Button label="Register" variant="primary" size="small" onClick={redirectToRegister}></Button>
+                        <Button label="Login" variant="primary"  onClick={redirectToLogin}></Button>
+                        <Button label="Register" variant="primary" onClick={redirectToRegister}></Button>
                     </>
                 }
             </UserButtonsContainer>
