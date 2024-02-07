@@ -118,9 +118,12 @@ const LeftPanel: React.FC = () => {
         }
     };
 
-    const getClaimValue = (type: string) => {
-        const claim = userClaims.find((claim: any) => claim.type === type);
-        return claim ? claim.value : null;
+    const getClaimValue = (type: string | null) => {
+        if(userClaims) {
+            const claim = userClaims.find((claim: any) => claim.type === type);
+            return claim ? claim.value : null;
+        }
+        return null
     };
 
     useEffect(() => {

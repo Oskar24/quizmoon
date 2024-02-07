@@ -43,6 +43,7 @@ const StyledButton = styled.button<StyledButtonProps>`
   position: relative;
   background: transparent;
   color: inherit;
+  cursor: pointer;
   border: none;
   height: ${(props) => GetButtonHeight(props.size)}px;
   width: ${(props) => GetButtonWidth(props.size)}px;

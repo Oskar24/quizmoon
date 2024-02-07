@@ -1,6 +1,12 @@
+import React, { ReactElement } from "react";
 import Home from "./components/home/Home";
 
-const AppRoutes = [
+interface Route {
+  path: string;
+  element?: ReactElement;
+  errorElement?: ReactElement;
+}
+const AppRoutes: Route[] = [
   {
     path: "/",
     element: <Home />,

@@ -116,7 +116,7 @@ const Home: React.FC = () => {
                 <>
                     <Title>Flashcards</Title>
                     <FlashcardsContainer>
-                        {flashcards.map((flashcard) => (
+                        {flashcards && flashcards.map((flashcard) => (
                             <FlashcardBorder
                                 key={flashcard.id}
                                 className={`${flippedCard === flashcard.id ? 'flipped' : ''
