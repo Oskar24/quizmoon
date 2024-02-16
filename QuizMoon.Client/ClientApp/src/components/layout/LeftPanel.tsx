@@ -107,16 +107,16 @@ function redirectToLogout() {
 const LeftPanel: React.FC = () => {
     const [userClaims, setUserClaims] = useState<any>(null);
 
-    const fetchUserData = async () => {
-        try {
-            const response = await fetchUser();
-            if (response && response.data) {
-                setUserClaims(response.data);
-            }
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
+    // const fetchUserData = async () => {
+    //     try {
+    //         const response = await fetchUser();
+    //         if (response && response.data) {
+    //             setUserClaims(response.data);
+    //         }
+    //     } catch (error) {
+    //         console.error('Error fetching data:', error);
+    //     }
+    // };
 
     const getClaimValue = (type: string | null) => {
         if(userClaims) {
@@ -126,9 +126,9 @@ const LeftPanel: React.FC = () => {
         return null
     };
 
-    useEffect(() => {
-        fetchUserData();
-    }, []);
+    // useEffect(() => {
+    //     fetchUserData();
+    // }, []);
 
     return (
         <Panel>
